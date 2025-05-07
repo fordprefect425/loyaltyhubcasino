@@ -1,263 +1,30 @@
 
 import React from "react";
 import LoyaltyNavbar from "@/components/LoyaltyNavbar";
-import { Card, CardContent } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Coins, BadgeDollarSign, Gift, Star, Percent, ShoppingCart, Tag } from "lucide-react";
-import { useToast } from "@/hooks/use-toast";
-
-interface TokenPackage {
-  id: string;
-  tokens: number;
-  originalPrice?: number;
-  price: number;
-  isBestValue?: boolean;
-  bonusPercentage?: number;
-  webStoreBonus: number;
-  tags?: string[];
-  sale?: {
-    name: string;
-    discount: number;
-  };
-  bonuses: {
-    type: string;
-    value: string | number;
-    icon: JSX.Element;
-  }[];
-}
+import TokenPackageCard from "@/components/shop/TokenPackageCard";
+import WebStoreBenefits from "@/components/shop/WebStoreBenefits";
+import WebStoreHeader from "@/components/shop/WebStoreHeader";
+import ShopFooter from "@/components/shop/ShopFooter";
+import tokenPackages from "@/data/tokenPackages";
 
 const Shop = () => {
-  const { toast } = useToast();
-
-  const tokenPackages: TokenPackage[] = [
-    {
-      id: "small",
-      tokens: 10000000,
-      price: 4.99,
-      webStoreBonus: 1000000,
-      tags: ["Starter"],
-      sale: {
-        name: "Weekend Deal",
-        discount: 5
-      },
-      bonuses: [
-        { type: "Spins", value: "+50", icon: <Gift className="h-4 w-4 text-yellow-400" /> },
-        { type: "XP Boost", value: "1.5x", icon: <Star className="h-4 w-4 text-pink-500" /> }
-      ]
-    },
-    {
-      id: "medium",
-      tokens: 50000000,
-      price: 9.99,
-      webStoreBonus: 5000000,
-      tags: ["Popular"],
-      bonuses: [
-        { type: "Spins", value: "+100", icon: <Gift className="h-4 w-4 text-yellow-400" /> },
-        { type: "XP Boost", value: "2x", icon: <Star className="h-4 w-4 text-pink-500" /> }
-      ]
-    },
-    {
-      id: "large",
-      tokens: 120550500,
-      originalPrice: 39.99,
-      price: 29.99,
-      webStoreBonus: 12055050,
-      bonusPercentage: 40,
-      isBestValue: true,
-      tags: ["Best Value", "Limited"],
-      sale: {
-        name: "Spring Sale",
-        discount: 25
-      },
-      bonuses: [
-        { type: "Win", value: "+200", icon: <Gift className="h-4 w-4 text-yellow-400" /> },
-        { type: "XP Boost", value: "2.5x", icon: <Star className="h-4 w-4 text-pink-500" /> },
-        { type: "Bonus", value: "1 Pack", icon: <Gift className="h-4 w-4 text-yellow-400" /> }
-      ]
-    },
-    {
-      id: "mega",
-      tokens: 500000000,
-      price: 99.99,
-      webStoreBonus: 50000000,
-      bonusPercentage: 10,
-      tags: ["Premium", "VIP"],
-      sale: {
-        name: "Flash Deal",
-        discount: 10
-      },
-      bonuses: [
-        { type: "Win", value: "+500", icon: <Gift className="h-4 w-4 text-yellow-400" /> },
-        { type: "XP Boost", value: "3x", icon: <Star className="h-4 w-4 text-pink-500" /> },
-        { type: "Bonus", value: "3 Pack", icon: <Gift className="h-4 w-4 text-yellow-400" /> }
-      ]
-    }
-  ];
-
-  const handlePurchase = (pack: TokenPackage) => {
-    toast({
-      title: "Purchase Initiated",
-      description: `Processing your purchase of ${pack.tokens.toLocaleString()} tokens for $${pack.price}`,
-    });
-    // Here you would integrate with a payment processor like Stripe
-  };
-
   return (
     <div className="min-h-screen bg-gradient-to-b from-[#1A1F2C] to-[#2D243B] flex flex-col">
       <LoyaltyNavbar />
 
       <main className="flex-1 container mx-auto px-4 py-8">
-        {/* Top Banner */}
-        <div className="bg-gradient-to-r from-[#FFD700] to-[#FFA500] rounded-lg p-4 mb-8 shadow-lg animate-pulse">
-          <h2 className="text-purple-900 text-xl md:text-2xl font-bold text-center">
-            🎰 Get Up to 10% More Tokens on Every Web Store Purchase! 🎰
-          </h2>
-        </div>
-
-        <div className="mb-8 text-center">
-          <h1 className="text-3xl font-bold text-white mb-2 flex items-center justify-center">
-            <ShoppingCart className="h-8 w-8 mr-2 text-yellow-400" />
-            <span className="bg-clip-text text-transparent bg-gradient-to-r from-yellow-400 to-yellow-200">
-              Web Store
-            </span>
-          </h1>
-          <p className="text-[#9b87f5] max-w-2xl mx-auto">
-            Purchase tokens to use in our casino games. The more tokens you buy, the bigger your bonuses!
-          </p>
-        </div>
+        <WebStoreHeader />
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
           {tokenPackages.map((pack) => (
-            <Card 
-              key={pack.id} 
-              className={`overflow-hidden relative border-0 shadow-lg ${
-                pack.isBestValue 
-                  ? 'bg-gradient-to-b from-[#9b87f5] to-[#7E69AB]' 
-                  : 'bg-gradient-to-b from-[#322B45] to-[#282336]'
-              }`}
-            >
-              {pack.isBestValue && (
-                <div className="absolute -top-1 -left-1 w-20 h-20">
-                  <div className="bg-yellow-400 text-[#8B4000] font-bold text-xs py-1 px-2 rounded-full absolute transform rotate-[-30deg] translate-x-[-15%] translate-y-[80%] shadow-lg z-10">
-                    BEST VALUE
-                  </div>
-                </div>
-              )}
-              
-              {pack.bonusPercentage && (
-                <div className="absolute top-0 right-0 bg-gradient-to-r from-pink-600 to-purple-700 text-white text-sm py-1 px-3 transform translate-x-[15%] rotate-[40deg] shadow">
-                  +{pack.bonusPercentage}%
-                </div>
-              )}
-
-              {/* Tags */}
-              {pack.tags && pack.tags.length > 0 && (
-                <div className="absolute top-3 left-3 flex flex-wrap gap-1">
-                  {pack.tags.map((tag, index) => (
-                    <span 
-                      key={index} 
-                      className="inline-flex items-center bg-blue-900/60 text-white text-xs px-2 py-1 rounded-full"
-                    >
-                      <Tag className="h-3 w-3 mr-1" /> {tag}
-                    </span>
-                  ))}
-                </div>
-              )}
-
-              <CardContent className="p-6 pt-12">
-                {/* Sale Banner */}
-                {pack.sale && (
-                  <div className="bg-red-600 text-white font-bold py-2 px-4 mb-4 -mx-6 text-center shadow-md relative overflow-hidden">
-                    <span className="absolute top-0 left-0 w-full h-full bg-white opacity-20 animate-pulse"></span>
-                    <div className="flex items-center justify-center">
-                      <Percent className="h-4 w-4 mr-1" />
-                      <span>{pack.sale.name}: {pack.sale.discount}% OFF</span>
-                    </div>
-                  </div>
-                )}
-
-                <div className="flex justify-center mb-4">
-                  <div className="w-20 h-20 rounded-full bg-gradient-to-r from-yellow-300 to-yellow-500 flex items-center justify-center shadow-lg">
-                    <Coins className="h-10 w-10 text-purple-900" />
-                  </div>
-                </div>
-
-                <div className={`rounded-full py-2 px-4 mb-4 font-bold text-center text-2xl ${
-                  pack.isBestValue ? 'bg-blue-600 text-yellow-300' : 'bg-blue-800 text-white'
-                }`}>
-                  {pack.tokens.toLocaleString()} Tokens
-                </div>
-                
-                {pack.originalPrice && (
-                  <div className="text-center mb-2">
-                    <span className="text-gray-400 line-through">${pack.originalPrice.toFixed(2)}</span>
-                  </div>
-                )}
-
-                <div className="bg-gradient-to-r from-green-400 to-green-600 text-white font-bold rounded-lg py-3 px-4 mb-4">
-                  <div className="flex items-center justify-between">
-                    <span className="uppercase text-sm">Web Store Bonus</span>
-                    <span className="flex items-center">
-                      <Coins className="h-4 w-4 mr-1" /> {pack.webStoreBonus.toLocaleString()}
-                    </span>
-                  </div>
-                </div>
-
-                <div className={`rounded-lg p-3 mb-4 grid grid-cols-3 gap-2 ${
-                  pack.isBestValue ? 'bg-purple-800 bg-opacity-50' : 'bg-[#2D243B]'
-                }`}>
-                  {pack.bonuses.map((bonus, i) => (
-                    <div key={i} className="text-center">
-                      <div className="flex flex-col items-center">
-                        <div className="text-lg font-bold text-yellow-300">
-                          {bonus.value}
-                        </div>
-                        <div className="text-xs text-gray-300">
-                          {bonus.type}
-                        </div>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-
-                <Button
-                  onClick={() => handlePurchase(pack)}
-                  className="w-full text-xl py-6 bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 border-2 border-green-700 shadow-lg"
-                >
-                  <BadgeDollarSign className="mr-2 h-6 w-6" />
-                  ${pack.price.toFixed(2)}
-                </Button>
-              </CardContent>
-            </Card>
+            <TokenPackageCard key={pack.id} pack={pack} />
           ))}
         </div>
 
-        <div className="bg-[#322B45] rounded-lg p-6 mb-8">
-          <h2 className="text-2xl font-bold text-white mb-4">Why Purchase Tokens in the Web Store?</h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div className="bg-[#2D243B] p-4 rounded-lg">
-              <h3 className="text-lg font-bold text-yellow-300 mb-2">More Bonuses</h3>
-              <p className="text-gray-300">Get up to 10% additional tokens when you purchase through our web store!</p>
-            </div>
-            <div className="bg-[#2D243B] p-4 rounded-lg">
-              <h3 className="text-lg font-bold text-yellow-300 mb-2">Exclusive Deals</h3>
-              <p className="text-gray-300">Access special promotions and offers only available in the web store.</p>
-            </div>
-            <div className="bg-[#2D243B] p-4 rounded-lg">
-              <h3 className="text-lg font-bold text-yellow-300 mb-2">Loyalty Points</h3>
-              <p className="text-gray-300">Earn bonus loyalty points with every web store purchase!</p>
-            </div>
-          </div>
-        </div>
+        <WebStoreBenefits />
       </main>
 
-      <footer className="bg-[#2D243B] border-t border-[#3D3450] py-6">
-        <div className="container mx-auto px-4 text-center">
-          <p className="text-sm text-[#9b87f5]">
-            &copy; 2025 Casino Royale Loyalty Program. All rights reserved.
-          </p>
-        </div>
-      </footer>
+      <ShopFooter />
     </div>
   );
 };
