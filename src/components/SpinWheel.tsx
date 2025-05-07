@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -19,6 +18,17 @@ const SpinWheel: React.FC<SpinWheelProps> = ({ user }) => {
   const [canSpin, setCanSpin] = useState(true);
   const [remainingTime, setRemainingTime] = useState<number | null>(null);
   const { toast } = useToast();
+
+  const wheelPrizes = [
+    "5Mn Tokens",
+    "1Mn Tokens",
+    "100K Tokens",
+    "10K Tokens",
+    "1K Tokens",
+    "Try Again",
+    "2X Multiplier",
+    "Free Spin"
+  ];
 
   useEffect(() => {
     // Check if the user has spun today
@@ -139,7 +149,29 @@ const SpinWheel: React.FC<SpinWheelProps> = ({ user }) => {
                 boxShadow: '0 0 30px rgba(155, 135, 245, 0.5)',
               }}
             >
-              {/* Segments would be rendered here in a real implementation */}
+              {/* Display wheel segments with prizes */}
+              {wheelPrizes.map((prize, index) => {
+                const angle = 360 / wheelPrizes.length;
+                const rotation = index * angle;
+                return (
+                  <div 
+                    key={prize} 
+                    className="absolute top-0 left-0 w-full h-full flex items-start justify-center"
+                    style={{
+                      transform: `rotate(${rotation}deg)`,
+                      transformOrigin: 'bottom center',
+                      padding: '10px',
+                    }}
+                  >
+                    <div 
+                      className="text-xs font-bold text-white"
+                      style={{ transform: 'rotate(180deg)' }}
+                    >
+                      {prize}
+                    </div>
+                  </div>
+                );
+              })}
             </div>
             
             {/* Center of wheel */}

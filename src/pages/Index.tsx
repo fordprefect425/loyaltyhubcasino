@@ -9,7 +9,9 @@ import SpinWheel from "@/components/SpinWheel";
 import PointsHistory from "@/components/PointsHistory";
 import RewardsSection from "@/components/RewardsSection";
 import ReferralSection from "@/components/ReferralSection";
+import SweepstakesSection from "@/components/SweepstakesSection";
 import { currentUser, pointsHistory, rewards, friends, referrals } from "@/data/mockData";
+import { sweepstakesEntries } from "@/data/sweepstakesData";
 
 const Index = () => {
   return (
@@ -32,6 +34,12 @@ const Index = () => {
           <div>
             <SpinWheel user={currentUser} />
           </div>
+          <div className="col-span-2">
+            <SweepstakesSection entries={sweepstakesEntries} user={currentUser} />
+          </div>
+        </div>
+        
+        <div className="mb-8">
           <RewardsSection rewards={rewards.slice(0, 3)} user={currentUser} />
         </div>
         

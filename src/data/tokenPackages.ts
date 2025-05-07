@@ -1,7 +1,30 @@
 
-import React from "react";
+import { ReactNode } from "react";
 import { Gift, Star } from "lucide-react";
-import { TokenPackage } from "@/components/shop/TokenPackageCard";
+
+export interface TokenPackageBonus {
+  type: string;
+  value: string;
+  icon: ReactNode;
+}
+
+export interface TokenPackageSale {
+  name: string;
+  discount: number;
+}
+
+export interface TokenPackage {
+  id: string;
+  tokens: number;
+  price: number;
+  originalPrice?: number;
+  webStoreBonus: number;
+  bonusPercentage?: number;
+  isBestValue?: boolean;
+  tags?: string[];
+  sale?: TokenPackageSale;
+  bonuses: TokenPackageBonus[];
+}
 
 const tokenPackages: TokenPackage[] = [
   {
