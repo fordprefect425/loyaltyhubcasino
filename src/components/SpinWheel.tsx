@@ -117,49 +117,53 @@ const SpinWheel: React.FC<SpinWheelProps> = ({ user }) => {
   };
 
   return (
-    <Card>
-      <CardHeader>
-        <CardTitle className="text-lg flex items-center">
-          <RotateCw className="h-5 w-5 mr-2 text-loyalty-purple" />
-          Spin & Win
+    <Card className="border-0 overflow-hidden bg-gradient-to-b from-[#322B45] to-[#282336]">
+      <CardHeader className="pb-2">
+        <CardTitle className="text-lg flex items-center text-yellow-300">
+          <RotateCw className="h-5 w-5 mr-2 text-yellow-300" />
+          Lucky Spin & Win
         </CardTitle>
-        <CardDescription>
-          Spend {spinCost} CC Points for a chance to win prizes
+        <CardDescription className="text-gray-300">
+          Spend {spinCost} CC Points for a chance to win amazing prizes
         </CardDescription>
       </CardHeader>
       <CardContent>
         <div className="flex flex-col items-center">
-          <div className="relative w-64 h-64 mb-6">
+          <div className="relative w-64 h-64 mb-6 group">
             {/* Wheel */}
             <div 
-              className="spin-wheel" 
+              className="spin-wheel group-hover:animate-pulse-glow"
               style={{
                 transform: `rotate(${spinDegrees}deg)`,
                 transition: isSpinning ? 'transform 5s cubic-bezier(0.1, 0.2, 0.1, 1)' : 'none',
+                boxShadow: '0 0 30px rgba(155, 135, 245, 0.5)',
               }}
             >
               {/* Segments would be rendered here in a real implementation */}
             </div>
             
             {/* Center of wheel */}
-            <div className="spin-wheel-center">
-              <span className="text-xs font-medium">SPIN</span>
+            <div className="spin-wheel-center bg-yellow-300">
+              <span className="text-xs font-bold text-purple-900">SPIN</span>
             </div>
             
             {/* Pointer */}
             <svg className="spin-wheel-pointer" viewBox="0 0 20 40">
-              <path d="M10 0L20 20H0L10 0Z" />
+              <path d="M10 0L20 20H0L10 0Z" fill="#FCD34D" />
             </svg>
+            
+            {/* Glow effect around the wheel */}
+            <div className="absolute inset-0 rounded-full glow-effect"></div>
           </div>
           
           {result && (
-            <div className="text-lg font-medium text-center animate-scale-up mb-4 text-loyalty-purple-dark">
+            <div className="text-lg font-medium text-center animate-scale-up mb-4 text-yellow-300 bg-purple-900/40 px-4 py-2 rounded-md">
               {result}
             </div>
           )}
           
           <Button 
-            className="w-full bg-loyalty-purple hover:bg-loyalty-purple-dark"
+            className="w-full bg-gradient-to-r from-[#9b87f5] to-[#7E69AB] hover:from-[#8A76E4] hover:to-[#6E59A5] border-none shadow-lg shadow-purple-900/25 text-white"
             disabled={isSpinning || !canSpin}
             onClick={handleSpin}
           >
@@ -170,7 +174,7 @@ const SpinWheel: React.FC<SpinWheelProps> = ({ user }) => {
                 : `Spin for ${spinCost} CC Points`}
           </Button>
           
-          <p className="text-xs text-muted-foreground mt-2 text-center">
+          <p className="text-xs text-gray-400 mt-2 text-center">
             One spin per day. Higher tiers get better rewards!
           </p>
         </div>

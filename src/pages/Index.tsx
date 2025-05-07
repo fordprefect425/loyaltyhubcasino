@@ -13,7 +13,7 @@ import { currentUser, pointsHistory, rewards, friends, referrals } from "@/data/
 
 const Index = () => {
   return (
-    <div className="min-h-screen bg-gray-50 flex flex-col">
+    <div className="min-h-screen bg-gradient-to-b from-[#1A1F2C] to-[#2D243B] flex flex-col">
       <LoyaltyNavbar />
       
       <main className="flex-1 container mx-auto px-4 py-8">
@@ -40,10 +40,10 @@ const Index = () => {
         </div>
       </main>
       
-      <footer className="bg-white border-t py-6">
+      <footer className="bg-[#2D243B] border-t border-[#3D3450] py-6">
         <div className="container mx-auto px-4 text-center">
-          <p className="text-sm text-muted-foreground">
-            &copy; 2025 Scopely Loyalty Program. All rights reserved.
+          <p className="text-sm text-[#9b87f5]">
+            &copy; 2025 Casino Royale Loyalty Program. All rights reserved.
           </p>
         </div>
       </footer>
