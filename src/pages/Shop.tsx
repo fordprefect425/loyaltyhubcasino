@@ -3,7 +3,7 @@ import React from "react";
 import LoyaltyNavbar from "@/components/LoyaltyNavbar";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Coins, BadgeDollarSign, Gift, Star } from "lucide-react";
+import { Coins, BadgeDollarSign, Gift, Star, Percent, ShoppingCart, Tag } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 
 interface TokenPackage {
@@ -13,6 +13,12 @@ interface TokenPackage {
   price: number;
   isBestValue?: boolean;
   bonusPercentage?: number;
+  webStoreBonus: number;
+  tags?: string[];
+  sale?: {
+    name: string;
+    discount: number;
+  };
   bonuses: {
     type: string;
     value: string | number;
@@ -28,6 +34,12 @@ const Shop = () => {
       id: "small",
       tokens: 10000000,
       price: 4.99,
+      webStoreBonus: 1000000,
+      tags: ["Starter"],
+      sale: {
+        name: "Weekend Deal",
+        discount: 5
+      },
       bonuses: [
         { type: "Spins", value: "+50", icon: <Gift className="h-4 w-4 text-yellow-400" /> },
         { type: "XP Boost", value: "1.5x", icon: <Star className="h-4 w-4 text-pink-500" /> }
@@ -37,6 +49,8 @@ const Shop = () => {
       id: "medium",
       tokens: 50000000,
       price: 9.99,
+      webStoreBonus: 5000000,
+      tags: ["Popular"],
       bonuses: [
         { type: "Spins", value: "+100", icon: <Gift className="h-4 w-4 text-yellow-400" /> },
         { type: "XP Boost", value: "2x", icon: <Star className="h-4 w-4 text-pink-500" /> }
@@ -45,10 +59,16 @@ const Shop = () => {
     {
       id: "large",
       tokens: 120550500,
-      originalPrice: 6000000,
+      originalPrice: 39.99,
       price: 29.99,
-      bonusPercentage: 240,
+      webStoreBonus: 12055050,
+      bonusPercentage: 40,
       isBestValue: true,
+      tags: ["Best Value", "Limited"],
+      sale: {
+        name: "Spring Sale",
+        discount: 25
+      },
       bonuses: [
         { type: "Win", value: "+200", icon: <Gift className="h-4 w-4 text-yellow-400" /> },
         { type: "XP Boost", value: "2.5x", icon: <Star className="h-4 w-4 text-pink-500" /> },
@@ -59,7 +79,13 @@ const Shop = () => {
       id: "mega",
       tokens: 500000000,
       price: 99.99,
-      bonusPercentage: 320,
+      webStoreBonus: 50000000,
+      bonusPercentage: 10,
+      tags: ["Premium", "VIP"],
+      sale: {
+        name: "Flash Deal",
+        discount: 10
+      },
       bonuses: [
         { type: "Win", value: "+500", icon: <Gift className="h-4 w-4 text-yellow-400" /> },
         { type: "XP Boost", value: "3x", icon: <Star className="h-4 w-4 text-pink-500" /> },
@@ -81,19 +107,23 @@ const Shop = () => {
       <LoyaltyNavbar />
 
       <main className="flex-1 container mx-auto px-4 py-8">
+        {/* Top Banner */}
+        <div className="bg-gradient-to-r from-[#FFD700] to-[#FFA500] rounded-lg p-4 mb-8 shadow-lg animate-pulse">
+          <h2 className="text-purple-900 text-xl md:text-2xl font-bold text-center">
+            🎰 Get Up to 10% More Tokens on Every Web Store Purchase! 🎰
+          </h2>
+        </div>
+
         <div className="mb-8 text-center">
           <h1 className="text-3xl font-bold text-white mb-2 flex items-center justify-center">
-            <Coins className="h-8 w-8 mr-2 text-yellow-400" />
+            <ShoppingCart className="h-8 w-8 mr-2 text-yellow-400" />
             <span className="bg-clip-text text-transparent bg-gradient-to-r from-yellow-400 to-yellow-200">
-              Token Shop
+              Web Store
             </span>
           </h1>
           <p className="text-[#9b87f5] max-w-2xl mx-auto">
-            Purchase tokens to use in our casino games. The more you buy, the more bonuses you get!
+            Purchase tokens to use in our casino games. The more tokens you buy, the bigger your bonuses!
           </p>
-          <div className="mt-4 inline-block px-4 py-2 bg-gradient-to-r from-purple-700 to-purple-900 rounded-lg">
-            <p className="text-yellow-200 font-bold">Web Store Bonus: +1,000,000,000 tokens on all purchases!</p>
-          </div>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
@@ -120,32 +150,55 @@ const Shop = () => {
                 </div>
               )}
 
-              <CardContent className="p-6">
+              {/* Tags */}
+              {pack.tags && pack.tags.length > 0 && (
+                <div className="absolute top-3 left-3 flex flex-wrap gap-1">
+                  {pack.tags.map((tag, index) => (
+                    <span 
+                      key={index} 
+                      className="inline-flex items-center bg-blue-900/60 text-white text-xs px-2 py-1 rounded-full"
+                    >
+                      <Tag className="h-3 w-3 mr-1" /> {tag}
+                    </span>
+                  ))}
+                </div>
+              )}
+
+              <CardContent className="p-6 pt-12">
+                {/* Sale Banner */}
+                {pack.sale && (
+                  <div className="bg-red-600 text-white font-bold py-2 px-4 mb-4 -mx-6 text-center shadow-md relative overflow-hidden">
+                    <span className="absolute top-0 left-0 w-full h-full bg-white opacity-20 animate-pulse"></span>
+                    <div className="flex items-center justify-center">
+                      <Percent className="h-4 w-4 mr-1" />
+                      <span>{pack.sale.name}: {pack.sale.discount}% OFF</span>
+                    </div>
+                  </div>
+                )}
+
                 <div className="flex justify-center mb-4">
-                  <img 
-                    src="/lovable-uploads/00dc3694-2047-408a-a0b7-b158f8888686.png" 
-                    alt="Token package" 
-                    className="w-28 h-28 object-contain"
-                  />
+                  <div className="w-20 h-20 rounded-full bg-gradient-to-r from-yellow-300 to-yellow-500 flex items-center justify-center shadow-lg">
+                    <Coins className="h-10 w-10 text-purple-900" />
+                  </div>
                 </div>
 
                 <div className={`rounded-full py-2 px-4 mb-4 font-bold text-center text-2xl ${
                   pack.isBestValue ? 'bg-blue-600 text-yellow-300' : 'bg-blue-800 text-white'
                 }`}>
-                  {pack.tokens.toLocaleString()}
+                  {pack.tokens.toLocaleString()} Tokens
                 </div>
                 
                 {pack.originalPrice && (
                   <div className="text-center mb-2">
-                    <span className="text-gray-400 line-through">{pack.originalPrice.toLocaleString()}</span>
+                    <span className="text-gray-400 line-through">${pack.originalPrice.toFixed(2)}</span>
                   </div>
                 )}
 
-                <div className="bg-yellow-400 text-purple-900 font-bold rounded-lg py-3 px-4 mb-4">
+                <div className="bg-gradient-to-r from-green-400 to-green-600 text-white font-bold rounded-lg py-3 px-4 mb-4">
                   <div className="flex items-center justify-between">
                     <span className="uppercase text-sm">Web Store Bonus</span>
                     <span className="flex items-center">
-                      <Coins className="h-4 w-4 mr-1" /> 1,000,000,000
+                      <Coins className="h-4 w-4 mr-1" /> {pack.webStoreBonus.toLocaleString()}
                     </span>
                   </div>
                 </div>
@@ -172,7 +225,7 @@ const Shop = () => {
                   className="w-full text-xl py-6 bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 border-2 border-green-700 shadow-lg"
                 >
                   <BadgeDollarSign className="mr-2 h-6 w-6" />
-                  ${pack.price}
+                  ${pack.price.toFixed(2)}
                 </Button>
               </CardContent>
             </Card>
@@ -180,19 +233,19 @@ const Shop = () => {
         </div>
 
         <div className="bg-[#322B45] rounded-lg p-6 mb-8">
-          <h2 className="text-2xl font-bold text-white mb-4">Why Purchase Tokens?</h2>
+          <h2 className="text-2xl font-bold text-white mb-4">Why Purchase Tokens in the Web Store?</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             <div className="bg-[#2D243B] p-4 rounded-lg">
-              <h3 className="text-lg font-bold text-yellow-300 mb-2">More Gameplay</h3>
-              <p className="text-gray-300">Keep the fun going with more spins and extended gameplay time.</p>
+              <h3 className="text-lg font-bold text-yellow-300 mb-2">More Bonuses</h3>
+              <p className="text-gray-300">Get up to 10% additional tokens when you purchase through our web store!</p>
             </div>
             <div className="bg-[#2D243B] p-4 rounded-lg">
-              <h3 className="text-lg font-bold text-yellow-300 mb-2">Bigger Wins</h3>
-              <p className="text-gray-300">Higher bets lead to bigger jackpots and more exciting prizes!</p>
+              <h3 className="text-lg font-bold text-yellow-300 mb-2">Exclusive Deals</h3>
+              <p className="text-gray-300">Access special promotions and offers only available in the web store.</p>
             </div>
             <div className="bg-[#2D243B] p-4 rounded-lg">
-              <h3 className="text-lg font-bold text-yellow-300 mb-2">Exclusive Features</h3>
-              <p className="text-gray-300">Unlock special game modes and exclusive slot machines.</p>
+              <h3 className="text-lg font-bold text-yellow-300 mb-2">Loyalty Points</h3>
+              <p className="text-gray-300">Earn bonus loyalty points with every web store purchase!</p>
             </div>
           </div>
         </div>
