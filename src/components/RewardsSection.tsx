@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Gift, Discount, Star } from 'lucide-react';
+import { Gift, Percent, Star } from 'lucide-react';
 import { Reward, RewardType, TierLevel, User } from '@/models/loyalty';
 import { useToast } from '@/hooks/use-toast';
 
@@ -64,7 +64,7 @@ const RewardsSection: React.FC<RewardsSectionProps> = ({ rewards, user }) => {
   const getRewardIcon = (type: RewardType) => {
     switch (type) {
       case RewardType.Discount:
-        return <Discount className="h-5 w-5 text-amber-500" />;
+        return <Percent className="h-5 w-5 text-amber-500" />;
       case RewardType.Token:
         return <Gift className="h-5 w-5 text-indigo-500" />;
       case RewardType.Pack:
@@ -156,3 +156,4 @@ const RewardsSection: React.FC<RewardsSectionProps> = ({ rewards, user }) => {
 };
 
 export default RewardsSection;
+
