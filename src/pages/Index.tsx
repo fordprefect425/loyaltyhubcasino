@@ -1,12 +1,52 @@
-// Update this page (the content is just a fallback if you fail to update the page)
+
+import React from "react";
+import LoyaltyNavbar from "@/components/LoyaltyNavbar";
+import LoyaltyHeader from "@/components/LoyaltyHeader";
+import PointsOverview from "@/components/PointsOverview";
+import TierBenefits from "@/components/TierBenefits";
+import DailyLogin from "@/components/DailyLogin";
+import SpinWheel from "@/components/SpinWheel";
+import PointsHistory from "@/components/PointsHistory";
+import RewardsSection from "@/components/RewardsSection";
+import ReferralSection from "@/components/ReferralSection";
+import { currentUser, pointsHistory, rewards, friends, referrals } from "@/data/mockData";
 
 const Index = () => {
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100">
-      <div className="text-center">
-        <h1 className="text-4xl font-bold mb-4">Welcome to Your Blank App</h1>
-        <p className="text-xl text-gray-600">Start building your amazing project here!</p>
-      </div>
+    <div className="min-h-screen bg-gray-50 flex flex-col">
+      <LoyaltyNavbar />
+      
+      <main className="flex-1 container mx-auto px-4 py-8">
+        <LoyaltyHeader user={currentUser} />
+        
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+          <PointsOverview user={currentUser} />
+          <TierBenefits user={currentUser} />
+          <div className="space-y-6">
+            <DailyLogin user={currentUser} />
+            <PointsHistory transactions={pointsHistory.slice(0, 3)} />
+          </div>
+        </div>
+        
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+          <div>
+            <SpinWheel user={currentUser} />
+          </div>
+          <RewardsSection rewards={rewards.slice(0, 3)} user={currentUser} />
+        </div>
+        
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          <ReferralSection friends={friends} referrals={referrals} />
+        </div>
+      </main>
+      
+      <footer className="bg-white border-t py-6">
+        <div className="container mx-auto px-4 text-center">
+          <p className="text-sm text-muted-foreground">
+            &copy; 2025 Scopely Loyalty Program. All rights reserved.
+          </p>
+        </div>
+      </footer>
     </div>
   );
 };
