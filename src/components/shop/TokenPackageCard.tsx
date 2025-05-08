@@ -2,7 +2,7 @@
 import React from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Coins, BadgeDollarSign, Gift, Star, Percent, Tag } from "lucide-react";
+import { Coins, BadgeDollarSign, Gift, Star, Percent, Tag, Currency } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 
 export interface TokenPackage {
@@ -13,6 +13,7 @@ export interface TokenPackage {
   isBestValue?: boolean;
   bonusPercentage?: number;
   webStoreBonus: number;
+  ccPoints: number; // Adding CC Points field
   tags?: string[];
   sale?: {
     name: string;
@@ -123,6 +124,16 @@ const TokenPackageCard: React.FC<TokenPackageCardProps> = ({ pack }) => {
             <span className="uppercase text-sm">Web Store Bonus</span>
             <span className="flex items-center">
               <Coins className="h-4 w-4 mr-1" /> {pack.webStoreBonus.toLocaleString()}
+            </span>
+          </div>
+        </div>
+        
+        {/* CC Points Bonus Section */}
+        <div className="bg-gradient-to-r from-purple-500 to-purple-700 text-white font-bold rounded-lg py-3 px-4 mb-4">
+          <div className="flex items-center justify-between">
+            <span className="uppercase text-sm">Bonus CC Points</span>
+            <span className="flex items-center">
+              <Currency className="h-4 w-4 mr-1" /> {pack.ccPoints}
             </span>
           </div>
         </div>

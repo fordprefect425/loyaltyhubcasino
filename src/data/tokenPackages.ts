@@ -18,6 +18,7 @@ export interface TokenPackage {
   price: number;
   originalPrice?: number;
   webStoreBonus: number;
+  ccPoints: number; // Adding CC Points that users get for purchasing
   bonusPercentage?: number;
   isBestValue?: boolean;
   tags?: string[];
@@ -31,6 +32,7 @@ const tokenPackages: TokenPackage[] = [
     tokens: 10000000,
     price: 4.99,
     webStoreBonus: 1000000,
+    ccPoints: 50, // Adding CC Points
     tags: ["Starter"],
     sale: {
       name: "Weekend Deal",
@@ -46,6 +48,7 @@ const tokenPackages: TokenPackage[] = [
     tokens: 50000000,
     price: 9.99,
     webStoreBonus: 5000000,
+    ccPoints: 100, // Adding CC Points
     tags: ["Popular"],
     bonuses: [
       { type: "Spins", value: "+100", icon: "gift" },
@@ -58,6 +61,7 @@ const tokenPackages: TokenPackage[] = [
     originalPrice: 39.99,
     price: 29.99,
     webStoreBonus: 12055050,
+    ccPoints: 300, // Adding CC Points
     bonusPercentage: 40,
     isBestValue: true,
     tags: ["Best Value", "Limited"],
@@ -76,6 +80,7 @@ const tokenPackages: TokenPackage[] = [
     tokens: 500000000,
     price: 99.99,
     webStoreBonus: 50000000,
+    ccPoints: 1000, // Adding CC Points
     bonusPercentage: 10,
     tags: ["Premium", "VIP"],
     sale: {
