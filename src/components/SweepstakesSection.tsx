@@ -2,10 +2,11 @@
 import React, { useState } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Timer, Award } from 'lucide-react';
+import { Timer, Award, TrendingUp } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { SweepstakesEntry } from '@/data/sweepstakesData';
 import { User } from '@/models/loyalty';
+import { Badge } from '@/components/ui/badge';
 
 interface SweepstakesSectionProps {
   entries: SweepstakesEntry[];
@@ -14,6 +15,12 @@ interface SweepstakesSectionProps {
 
 const SweepstakesSection: React.FC<SweepstakesSectionProps> = ({ entries, user }) => {
   const [userEntries, setUserEntries] = useState<Record<string, number>>({});
+  const [totalParticipants, setTotalParticipants] = useState<Record<string, number>>({
+    "sweep-1": 124,
+    "sweep-2": 87,
+    "sweep-3": 53,
+    "sweep-4": 96,
+  });
   const { toast } = useToast();
 
   const handleEnterSweepstakes = (entry: SweepstakesEntry) => {
@@ -31,12 +38,29 @@ const SweepstakesSection: React.FC<SweepstakesSectionProps> = ({ entries, user }
       ...userEntries,
       [entry.id]: currentEntries + 1
     });
+    
+    // Simulate adding to total participants
+    setTotalParticipants(prev => ({
+      ...prev,
+      [entry.id]: (prev[entry.id] || 0) + 1
+    }));
 
     toast({
       title: "Entry Confirmed!",
       description: `You've successfully entered the ${entry.name} sweepstakes!`,
       variant: "default",
     });
+  };
+
+  // Calculate winning chances
+  const calculateChance = (entryId: string) => {
+    const myEntries = userEntries[entryId] || 0;
+    const totalEntries = totalParticipants[entryId] || 1;
+    
+    if (myEntries === 0) return 0;
+    
+    const percentage = (myEntries / totalEntries) * 100;
+    return percentage.toFixed(2);
   };
 
   return (
@@ -84,8 +108,32 @@ const SweepstakesSection: React.FC<SweepstakesSectionProps> = ({ entries, user }
                 </div>
                 
                 {userEntries[entry.id] > 0 && (
-                  <div className="mt-3 text-center py-1 bg-purple-900/30 rounded text-sm text-yellow-400">
-                    Your Entries: {userEntries[entry.id]}
+                  <div className="mt-3 space-y-2">
+                    <div className="flex justify-between items-center text-sm">
+                      <span className="text-gray-300">Total participants:</span>
+                      <Badge variant="outline" className="bg-purple-900/20 text-yellow-300 border-purple-700">
+                        {totalParticipants[entry.id]}
+                      </Badge>
+                    </div>
+                    <div className="flex justify-between items-center text-sm">
+                      <span className="text-gray-300">Your entries:</span>
+                      <Badge variant="outline" className="bg-purple-900/20 text-yellow-300 border-purple-700">
+                        {userEntries[entry.id]}
+                      </Badge>
+                    </div>
+                    <div className="flex justify-between items-center text-sm">
+                      <span className="text-gray-300">Winning chance:</span>
+                      <Badge className="bg-green-600/80 flex items-center">
+                        <TrendingUp className="h-3 w-3 mr-1" />
+                        {calculateChance(entry.id)}%
+                      </Badge>
+                    </div>
+                  </div>
+                )}
+                
+                {!userEntries[entry.id] && (
+                  <div className="mt-3 text-center py-2 bg-purple-900/20 rounded text-sm text-gray-400">
+                    Enter to see your winning chances
                   </div>
                 )}
               </CardContent>

@@ -39,5 +39,14 @@ export const sweepstakesEntries: SweepstakesEntry[] = [
     endsIn: "5 days",
     type: RewardType.Sweepstakes,
     entries: 0
+  },
+  {
+    id: "sweep-4",
+    name: "Million Token Jackpot",
+    prize: "1 Million Tokens",
+    pointsPerEntry: 200,
+    endsIn: "3 days",
+    type: RewardType.Sweepstakes,
+    entries: 0
   }
 ];

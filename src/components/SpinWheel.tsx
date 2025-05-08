@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -139,53 +140,140 @@ const SpinWheel: React.FC<SpinWheelProps> = ({ user }) => {
       </CardHeader>
       <CardContent>
         <div className="flex flex-col items-center">
-          <div className="relative w-64 h-64 mb-6 group">
-            {/* Wheel */}
+          <div className="relative w-64 h-64 mb-6">
+            {/* Single wheel with clear segments */}
             <div 
-              className="spin-wheel group-hover:animate-pulse-glow"
+              className="wheel-container"
               style={{
-                transform: `rotate(${spinDegrees}deg)`,
-                transition: isSpinning ? 'transform 5s cubic-bezier(0.1, 0.2, 0.1, 1)' : 'none',
-                boxShadow: '0 0 30px rgba(155, 135, 245, 0.5)',
+                width: '100%',
+                height: '100%',
+                position: 'relative',
+                borderRadius: '50%',
+                overflow: 'hidden',
+                boxShadow: '0 0 20px rgba(155, 135, 245, 0.5)',
+                border: '4px solid rgba(251, 191, 36, 0.6)',
               }}
             >
-              {/* Display wheel segments with prizes */}
-              {wheelPrizes.map((prize, index) => {
-                const angle = 360 / wheelPrizes.length;
-                const rotation = index * angle;
-                return (
-                  <div 
-                    key={prize} 
-                    className="absolute top-0 left-0 w-full h-full flex items-start justify-center"
-                    style={{
-                      transform: `rotate(${rotation}deg)`,
-                      transformOrigin: 'bottom center',
-                      padding: '10px',
-                    }}
-                  >
+              <div
+                className="wheel"
+                style={{
+                  width: '100%',
+                  height: '100%',
+                  borderRadius: '50%',
+                  position: 'relative',
+                  transform: `rotate(${spinDegrees}deg)`,
+                  transition: isSpinning ? 'transform 5s cubic-bezier(0.1, 0.2, 0.1, 1)' : 'none',
+                }}
+              >
+                {wheelPrizes.map((prize, index) => {
+                  const angle = 360 / wheelPrizes.length;
+                  const rotation = index * angle;
+                  const bgColors = [
+                    '#9b87f5', '#FCD34D', '#9b87f5', '#FCD34D', 
+                    '#D3E4FD', '#FDE1D3', '#9b87f5', '#FCD34D'
+                  ];
+                  
+                  return (
                     <div 
-                      className="text-xs font-bold text-white"
-                      style={{ transform: 'rotate(180deg)' }}
+                      key={prize}
+                      className="wheel-segment"
+                      style={{
+                        position: 'absolute',
+                        top: 0,
+                        right: 0,
+                        bottom: 0,
+                        left: 0,
+                        transform: `rotate(${rotation}deg)`,
+                        transformOrigin: '50% 50%',
+                        clipPath: `polygon(50% 50%, 50% 0%, ${50 + 50 * Math.cos(Math.PI/wheelPrizes.length)}% ${50 - 50 * Math.sin(Math.PI/wheelPrizes.length)}%, 50% 0%)`,
+                        backgroundColor: bgColors[index % bgColors.length],
+                      }}
+                    />
+                  );
+                })}
+                
+                {/* Prize text labels */}
+                {wheelPrizes.map((prize, index) => {
+                  const angle = 360 / wheelPrizes.length;
+                  const rotation = index * angle;
+                  // Position text about 70% from center to edge
+                  const textRadius = 35;
+                  const textRotation = rotation + angle / 2;
+                  const textX = 50 + textRadius * Math.sin(textRotation * Math.PI / 180);
+                  const textY = 50 - textRadius * Math.cos(textRotation * Math.PI / 180);
+                  
+                  return (
+                    <div 
+                      key={`text-${prize}`}
+                      style={{
+                        position: 'absolute',
+                        left: `${textX}%`,
+                        top: `${textY}%`,
+                        transform: `translate(-50%, -50%) rotate(${rotation + 90}deg)`,
+                        color: '#fff',
+                        fontWeight: 'bold',
+                        fontSize: '0.7rem',
+                        textAlign: 'center',
+                        textShadow: '1px 1px 2px rgba(0,0,0,0.7)',
+                        maxWidth: '60px',
+                        padding: '2px',
+                      }}
                     >
                       {prize}
                     </div>
-                  </div>
-                );
-              })}
+                  );
+                })}
+              </div>
             </div>
             
             {/* Center of wheel */}
-            <div className="spin-wheel-center bg-yellow-300">
-              <span className="text-xs font-bold text-purple-900">SPIN</span>
+            <div 
+              className="wheel-center"
+              style={{
+                position: 'absolute',
+                top: '50%',
+                left: '50%',
+                transform: 'translate(-50%, -50%)',
+                width: '40px',
+                height: '40px',
+                borderRadius: '50%',
+                backgroundColor: '#FCD34D',
+                border: '3px solid white',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                fontWeight: 'bold',
+                color: '#2D1A4C',
+                boxShadow: '0 0 10px rgba(0, 0, 0, 0.5)',
+                zIndex: 5,
+              }}
+            >
+              SPIN
             </div>
             
             {/* Pointer */}
-            <svg className="spin-wheel-pointer" viewBox="0 0 20 40">
-              <path d="M10 0L20 20H0L10 0Z" fill="#FCD34D" />
-            </svg>
-            
-            {/* Glow effect around the wheel */}
-            <div className="absolute inset-0 rounded-full glow-effect"></div>
+            <div
+              style={{
+                position: 'absolute',
+                top: '-5px',
+                left: '50%',
+                transform: 'translateX(-50%)',
+                width: '20px',
+                height: '20px',
+                zIndex: 10,
+              }}
+            >
+              <div
+                style={{
+                  width: 0,
+                  height: 0,
+                  borderLeft: '10px solid transparent',
+                  borderRight: '10px solid transparent',
+                  borderTop: '20px solid #FCD34D',
+                  filter: 'drop-shadow(0px 0px 2px rgba(0,0,0,0.5))',
+                }}
+              />
+            </div>
           </div>
           
           {result && (
