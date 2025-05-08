@@ -21,7 +21,7 @@ export interface TokenPackage {
   bonuses: {
     type: string;
     value: string | number;
-    icon: JSX.Element;
+    icon: string; // Changed from JSX.Element to string
   }[];
 }
 
@@ -31,6 +31,18 @@ interface TokenPackageCardProps {
 
 const TokenPackageCard: React.FC<TokenPackageCardProps> = ({ pack }) => {
   const { toast } = useToast();
+
+  // Function to render the appropriate icon based on the icon name
+  const renderIcon = (iconName: string) => {
+    switch (iconName.toLowerCase()) {
+      case "gift":
+        return <Gift className="h-4 w-4 text-yellow-400" />;
+      case "star":
+        return <Star className="h-4 w-4 text-pink-500" />;
+      default:
+        return <Gift className="h-4 w-4 text-yellow-400" />;
+    }
+  };
 
   const handlePurchase = (pack: TokenPackage) => {
     toast({
@@ -121,6 +133,7 @@ const TokenPackageCard: React.FC<TokenPackageCardProps> = ({ pack }) => {
           {pack.bonuses.map((bonus, i) => (
             <div key={i} className="text-center">
               <div className="flex flex-col items-center">
+                {renderIcon(bonus.icon)}
                 <div className="text-lg font-bold text-yellow-300">
                   {bonus.value}
                 </div>

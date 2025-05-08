@@ -1,11 +1,10 @@
 
 import { ReactNode } from "react";
-import { Gift, Star } from "lucide-react";
 
 export interface TokenPackageBonus {
   type: string;
   value: string;
-  icon: ReactNode;
+  icon: string; // Changed from ReactNode to string to avoid JSX in .ts file
 }
 
 export interface TokenPackageSale {
@@ -38,8 +37,8 @@ const tokenPackages: TokenPackage[] = [
       discount: 5
     },
     bonuses: [
-      { type: "Spins", value: "+50", icon: <Gift className="h-4 w-4 text-yellow-400" /> },
-      { type: "XP Boost", value: "1.5x", icon: <Star className="h-4 w-4 text-pink-500" /> }
+      { type: "Spins", value: "+50", icon: "gift" },
+      { type: "XP Boost", value: "1.5x", icon: "star" }
     ]
   },
   {
@@ -49,8 +48,8 @@ const tokenPackages: TokenPackage[] = [
     webStoreBonus: 5000000,
     tags: ["Popular"],
     bonuses: [
-      { type: "Spins", value: "+100", icon: <Gift className="h-4 w-4 text-yellow-400" /> },
-      { type: "XP Boost", value: "2x", icon: <Star className="h-4 w-4 text-pink-500" /> }
+      { type: "Spins", value: "+100", icon: "gift" },
+      { type: "XP Boost", value: "2x", icon: "star" }
     ]
   },
   {
@@ -67,9 +66,9 @@ const tokenPackages: TokenPackage[] = [
       discount: 25
     },
     bonuses: [
-      { type: "Win", value: "+200", icon: <Gift className="h-4 w-4 text-yellow-400" /> },
-      { type: "XP Boost", value: "2.5x", icon: <Star className="h-4 w-4 text-pink-500" /> },
-      { type: "Bonus", value: "1 Pack", icon: <Gift className="h-4 w-4 text-yellow-400" /> }
+      { type: "Win", value: "+200", icon: "gift" },
+      { type: "XP Boost", value: "2.5x", icon: "star" },
+      { type: "Bonus", value: "1 Pack", icon: "gift" }
     ]
   },
   {
@@ -84,9 +83,9 @@ const tokenPackages: TokenPackage[] = [
       discount: 10
     },
     bonuses: [
-      { type: "Win", value: "+500", icon: <Gift className="h-4 w-4 text-yellow-400" /> },
-      { type: "XP Boost", value: "3x", icon: <Star className="h-4 w-4 text-pink-500" /> },
-      { type: "Bonus", value: "3 Pack", icon: <Gift className="h-4 w-4 text-yellow-400" /> }
+      { type: "Win", value: "+500", icon: "gift" },
+      { type: "XP Boost", value: "3x", icon: "star" },
+      { type: "Bonus", value: "3 Pack", icon: "gift" }
     ]
   }
 ];
