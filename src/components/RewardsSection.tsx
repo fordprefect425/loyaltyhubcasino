@@ -17,12 +17,11 @@ const RewardsSection: React.FC<RewardsSectionProps> = ({ rewards, user }) => {
   const { toast } = useToast();
 
   const filteredRewards = rewards.filter(reward => {
-    if (selectedTab === 'all') return true;
+    if (selectedTab === 'all') return reward.type !== RewardType.Sweepstakes;
     if (selectedTab === 'discount') return reward.type === RewardType.Discount;
     if (selectedTab === 'token') return reward.type === RewardType.Token;
     if (selectedTab === 'pack') return reward.type === RewardType.Pack;
-    if (selectedTab === 'sweepstakes') return reward.type === RewardType.Sweepstakes;
-    return true;
+    return reward.type !== RewardType.Sweepstakes;
   });
 
   const isTierEligible = (requiredTier: TierLevel | undefined): boolean => {
@@ -69,8 +68,8 @@ const RewardsSection: React.FC<RewardsSectionProps> = ({ rewards, user }) => {
         return <Gift className="h-5 w-5 text-indigo-500" />;
       case RewardType.Pack:
         return <Gift className="h-5 w-5 text-green-500" />;
-      case RewardType.Sweepstakes:
-        return <Star className="h-5 w-5 text-pink-500" />;
+      default:
+        return <Gift className="h-5 w-5 text-indigo-500" />;
     }
   };
 
@@ -87,12 +86,11 @@ const RewardsSection: React.FC<RewardsSectionProps> = ({ rewards, user }) => {
       </CardHeader>
       <CardContent>
         <Tabs defaultValue="all" value={selectedTab} onValueChange={setSelectedTab}>
-          <TabsList className="grid w-full grid-cols-5">
+          <TabsList className="grid w-full grid-cols-4">
             <TabsTrigger value="all">All</TabsTrigger>
             <TabsTrigger value="discount">Discounts</TabsTrigger>
             <TabsTrigger value="token">Tokens</TabsTrigger>
             <TabsTrigger value="pack">Packs</TabsTrigger>
-            <TabsTrigger value="sweepstakes">Sweepstakes</TabsTrigger>
           </TabsList>
           
           <TabsContent value={selectedTab} className="mt-4">
@@ -156,4 +154,3 @@ const RewardsSection: React.FC<RewardsSectionProps> = ({ rewards, user }) => {
 };
 
 export default RewardsSection;
-

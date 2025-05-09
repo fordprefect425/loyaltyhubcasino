@@ -15,9 +15,11 @@ const Shop = () => {
       <main className="flex-1 container mx-auto px-4 py-8">
         <WebStoreHeader />
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
           {tokenPackages.map((pack) => (
-            <TokenPackageCard key={pack.id} pack={pack} />
+            <div key={pack.id} className="h-full">
+              <TokenPackageCard pack={pack} />
+            </div>
           ))}
         </div>
 
