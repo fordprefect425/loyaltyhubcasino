@@ -58,7 +58,7 @@ const TokenPackageCard: React.FC<TokenPackageCardProps> = ({ pack }) => {
       className={`h-full flex flex-col overflow-hidden relative border-0 shadow-lg ${
         pack.isBestValue 
           ? 'bg-gradient-to-b from-[#9b87f5] to-[#7E69AB]' 
-          : 'bg-gradient-to-b from-[#322B45] to-[#282336]'
+          : 'bg-gradient-to-b from-[#242038] to-[#171225]'
       }`}
     >
       {pack.isBestValue && (
@@ -81,7 +81,7 @@ const TokenPackageCard: React.FC<TokenPackageCardProps> = ({ pack }) => {
           {pack.tags.map((tag, index) => (
             <span 
               key={index} 
-              className="inline-flex items-center bg-blue-900/60 backdrop-blur-sm text-white text-xs px-2 py-1 rounded-full mx-1"
+              className="inline-flex items-center bg-blue-900/80 backdrop-blur-sm text-white text-xs px-2 py-1 rounded-full mx-1 shadow-md"
             >
               <Tag className="h-3 w-3 mr-1" /> {tag}
             </span>
@@ -108,48 +108,48 @@ const TokenPackageCard: React.FC<TokenPackageCardProps> = ({ pack }) => {
         </div>
 
         <div className={`rounded-full py-1 px-3 mb-3 font-bold text-center text-xl ${
-          pack.isBestValue ? 'bg-blue-600 text-yellow-300' : 'bg-blue-800 text-white'
+          pack.isBestValue ? 'bg-blue-600 text-yellow-300' : 'bg-blue-900 text-white'
         }`}>
           {pack.tokens.toLocaleString()} Tokens
         </div>
         
         {pack.originalPrice && (
           <div className="text-center mb-2">
-            <span className="text-gray-400 line-through">${pack.originalPrice.toFixed(2)}</span>
+            <span className="text-gray-300 line-through">${pack.originalPrice.toFixed(2)}</span>
           </div>
         )}
 
-        {/* Bonuses Section - Compact layout */}
+        {/* Bonuses Section - Improved contrast */}
         <div className="space-y-2 mb-3 flex-grow">
-          <div className="bg-gradient-to-r from-green-400 to-green-600 text-white rounded-lg py-2 px-3">
+          <div className="bg-gradient-to-r from-green-500 to-green-700 text-white rounded-lg py-2 px-3 shadow-md">
             <div className="flex items-center justify-between">
-              <span className="uppercase text-xs">Web Bonus</span>
-              <span className="flex items-center text-sm">
+              <span className="uppercase text-xs font-semibold">Web Bonus</span>
+              <span className="flex items-center text-sm font-bold">
                 <Coins className="h-3 w-3 mr-1" /> {pack.webStoreBonus.toLocaleString()}
               </span>
             </div>
           </div>
           
-          <div className="bg-gradient-to-r from-purple-500 to-purple-700 text-white rounded-lg py-2 px-3">
+          <div className="bg-gradient-to-r from-purple-600 to-purple-800 text-white rounded-lg py-2 px-3 shadow-md">
             <div className="flex items-center justify-between">
-              <span className="uppercase text-xs">CC Points</span>
-              <span className="flex items-center text-sm">
+              <span className="uppercase text-xs font-semibold">CC Points</span>
+              <span className="flex items-center text-sm font-bold">
                 <Currency className="h-3 w-3 mr-1" /> {pack.ccPoints}
               </span>
             </div>
           </div>
 
           <div className={`rounded-lg p-2 grid grid-cols-3 gap-1 ${
-            pack.isBestValue ? 'bg-purple-800/50' : 'bg-[#2D243B]'
-          }`}>
+            pack.isBestValue ? 'bg-purple-900/50' : 'bg-[#1F1A2C]'
+          } border border-purple-800/30`}>
             {pack.bonuses.map((bonus, i) => (
-              <div key={i} className="text-center">
+              <div key={i} className="text-center p-1 bg-black/20 rounded">
                 <div className="flex flex-col items-center">
                   {renderIcon(bonus.icon)}
                   <div className="text-sm font-bold text-yellow-300">
                     {bonus.value}
                   </div>
-                  <div className="text-xs text-gray-300">
+                  <div className="text-xs text-gray-200">
                     {bonus.type}
                   </div>
                 </div>

@@ -3,12 +3,12 @@ import React, { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { 
-  Coins, 
   Menu, 
   X,
   ShoppingBag,
   FileText
 } from "lucide-react";
+import CasinoRoyaleLogo from "./CasinoRoyaleLogo";
 
 const LoyaltyNavbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -21,12 +21,7 @@ const LoyaltyNavbar = () => {
   return (
     <header className="bg-gradient-to-r from-[#2D1A4C] to-[#1A1F2C] border-b border-[#3D3450] sticky top-0 z-10">
       <div className="container mx-auto px-4 h-16 flex items-center justify-between">
-        <div className="flex items-center">
-          <Coins className="h-7 w-7 text-yellow-400 mr-2" />
-          <span className="font-bold text-2xl bg-clip-text text-transparent bg-gradient-to-r from-yellow-300 to-yellow-500">
-            Casino Royale
-          </span>
-        </div>
+        <CasinoRoyaleLogo />
         
         {/* Desktop Navigation */}
         <nav className="hidden md:flex items-center space-x-6">

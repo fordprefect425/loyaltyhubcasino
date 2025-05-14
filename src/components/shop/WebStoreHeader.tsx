@@ -1,6 +1,7 @@
 
 import React from "react";
 import { ShoppingCart } from "lucide-react";
+import StoreCarouselBanner from "./StoreCarouselBanner";
 
 const WebStoreHeader: React.FC = () => {
   return (
@@ -11,6 +12,9 @@ const WebStoreHeader: React.FC = () => {
           🎰 Get Up to 10% More Tokens on Every Web Store Purchase! 🎰
         </h2>
       </div>
+      
+      {/* Carousel Banner */}
+      <StoreCarouselBanner />
 
       <div className="mb-8 text-center">
         <h1 className="text-3xl font-bold text-white mb-2 flex items-center justify-center">
