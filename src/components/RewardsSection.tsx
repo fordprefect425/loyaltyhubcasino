@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Gift, Percent, Star } from 'lucide-react';
+import { Gift, Discount, Star } from 'lucide-react';
 import { Reward, RewardType, TierLevel, User } from '@/models/loyalty';
 import { useToast } from '@/hooks/use-toast';
 
@@ -17,11 +17,12 @@ const RewardsSection: React.FC<RewardsSectionProps> = ({ rewards, user }) => {
   const { toast } = useToast();
 
   const filteredRewards = rewards.filter(reward => {
-    if (selectedTab === 'all') return reward.type !== RewardType.Sweepstakes;
+    if (selectedTab === 'all') return true;
     if (selectedTab === 'discount') return reward.type === RewardType.Discount;
     if (selectedTab === 'token') return reward.type === RewardType.Token;
     if (selectedTab === 'pack') return reward.type === RewardType.Pack;
-    return reward.type !== RewardType.Sweepstakes;
+    if (selectedTab === 'sweepstakes') return reward.type === RewardType.Sweepstakes;
+    return true;
   });
 
   const isTierEligible = (requiredTier: TierLevel | undefined): boolean => {
@@ -63,13 +64,13 @@ const RewardsSection: React.FC<RewardsSectionProps> = ({ rewards, user }) => {
   const getRewardIcon = (type: RewardType) => {
     switch (type) {
       case RewardType.Discount:
-        return <Percent className="h-5 w-5 text-amber-500" />;
+        return <Discount className="h-5 w-5 text-amber-500" />;
       case RewardType.Token:
         return <Gift className="h-5 w-5 text-indigo-500" />;
       case RewardType.Pack:
         return <Gift className="h-5 w-5 text-green-500" />;
-      default:
-        return <Gift className="h-5 w-5 text-indigo-500" />;
+      case RewardType.Sweepstakes:
+        return <Star className="h-5 w-5 text-pink-500" />;
     }
   };
 
@@ -86,11 +87,12 @@ const RewardsSection: React.FC<RewardsSectionProps> = ({ rewards, user }) => {
       </CardHeader>
       <CardContent>
         <Tabs defaultValue="all" value={selectedTab} onValueChange={setSelectedTab}>
-          <TabsList className="grid w-full grid-cols-4">
+          <TabsList className="grid w-full grid-cols-5">
             <TabsTrigger value="all">All</TabsTrigger>
             <TabsTrigger value="discount">Discounts</TabsTrigger>
             <TabsTrigger value="token">Tokens</TabsTrigger>
             <TabsTrigger value="pack">Packs</TabsTrigger>
+            <TabsTrigger value="sweepstakes">Sweepstakes</TabsTrigger>
           </TabsList>
           
           <TabsContent value={selectedTab} className="mt-4">
